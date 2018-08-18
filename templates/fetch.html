@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <link rel="shortcut icon" href="{{ static_url('favicon.ico') }}">
+    <link rel="stylesheet" type="text/css" href="/static/style.css">
+    <title>{{ title }}</title>
+</head>
+
+<body>
+    <!-- Begin Page Content -->
+    <div id="container">
+        <form action="/" method="POST">
+            <label for="url">Website:</label>
+            <input type="text" id="url" name="url">
+            <div id="lower">
+                <input type="submit" value="Submit">
+            </div><!--/ lower-->
+        </form>
+
+        <p> {{ escape(message) }} </p>
+
+        {% if top_100_words is not False %}
+            {% comment font size is front end, so do the math here %}
+            {% set max_font_size = 30.0 %}
+            {% set min_font_size = 10.0 %}
+            {% set max_count = top_100_words[0][1] %}
+            {% set min_count = top_100_words[-1][1] %}
+            {% set font_size_coef = (max_font_size-min_font_size)/(max_count-min_count) %}
+            {% comment end font size math %}
+
+            {% for word, count in top_100_words %}
+                {% set font_size = (count-min_count)*font_size_coef+min_font_size %}
+                <p style="font-size:{{font_size}}px"> {{ word }} </p>
+            {% end %}
+        {% end %}
+    </div><!--/ container-->
+    <!-- End Page Content -->
+</body>
+</html>

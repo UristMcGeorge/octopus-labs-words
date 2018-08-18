@@ -1,0 +1,16 @@
+version: "2"
+services:
+    app:
+        build: .
+        links:
+            - db
+        ports:
+            - "8888:8888"
+    db:
+        image: mysql:5.7
+        ports:
+            - "3306:3306"  # to debug, TODO: remove me
+        environment:
+            MYSQL_ROOT_PASSWORD: root  # TODO: change me
+        volumes:
+            - ./db:/docker-entrypoint-initdb.d/:ro
